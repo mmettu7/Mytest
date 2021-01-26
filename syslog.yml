@@ -1,0 +1,23 @@
+---
+
+
+- name: Add Syslog IP Address
+  hosts: gns3-ios
+  gather_facts: false
+  connection: local
+  vars:
+    cli:
+      username: david
+      password: cisco
+      transport: cli
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+
+  - name: CONFIGURE IOS SYSLOG SERVER
+    nxos_config:
+      lines:
+        - logging server 192.168.10.12
+        - logging server 10.10.10.10
+    register: print_output
+  -  debug: var=print_output
