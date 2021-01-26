@@ -1,7 +1,8 @@
+
 ---
 
 
-- name: Add Syslog IP Address
+- name: Cisco Wired Campus Design
   hosts: gns3-ios
   gather_facts: false
   connection: local
@@ -15,9 +16,9 @@
   tasks:
 
   - name: CONFIGURE IOS SYSLOG SERVER
-    nxos_config:
+    ios_config:
       lines:
-        - logging server 192.168.10.12
-        - logging server 10.10.10.10
+        - logging host 192.168.10.12
+        - logging host 10.10.10.10
     register: print_output
   -  debug: var=print_output
