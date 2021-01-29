@@ -1,18 +1,16 @@
-
 ---
 
 
-- name: Cisco Wired Campus Design
-  hosts: gns3-ios
+- name: Add Syslog IP
+  hosts: all
   gather_facts: false
   connection: local
+
   vars:
     cli:
-      username: david
-      password: cisco
-      transport: cli
-    ansible_python_interpreter: /usr/bin/python3
 
+    ansible_python_interpreter: /usr/bin/python3
+  
   tasks:
 
   - name: CONFIGURE IOS SYSLOG SERVER
@@ -20,5 +18,31 @@
       lines:
         - logging host 192.168.10.12
         - logging host 10.10.10.10
+      save_when: changed  
     register: print_output
-  -  debug: var=print_output
+    when: ansible_network_os == 'ios'
+
+
+  - name: CONFIGURE NXOS SYSLOG SERVER
+    nxos_config:
+      lines:
+        - logging server 192.168.10.12
+        - logging server 10.10.10.10
+      save_when: changed  
+    register: print_output
+    when: ansible_network_os == 'nxos'
+
+
+
+
+
+[device]
+S1 ansible_host=192.168.122.72 ansible_network_os=ios
+S2 ansible_host=192.168.122.73 ansible_network_os=nxos
+
+
+[all:vars]
+ansible_connection=network_cli
+ansible_user=AMYENGINEER
+ansible_ssh_pass=HEREISMYAWESOMEPASSWORD
+ansible_command_timeout= 40
