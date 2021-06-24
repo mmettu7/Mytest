@@ -1,0 +1,12 @@
+[defaults]
+inventory = ./hosts
+callback_plugins = ./callback_plugins
+filter_plugins = ./filter_plugins
+log_path = ./log.txt
+retry_files_enabled = False
+nocows = 1
+host_key_checking = False
+display_skipped_hosts = False
+display_ok_hosts = False
+[persistent_connection]
+command_timeout = 60
