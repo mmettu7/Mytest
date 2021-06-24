@@ -1,0 +1,43 @@
+---
+
+- name: Remove Syslog IP
+  hosts: all
+  gather_facts: false
+  connection: local
+
+  vars:
+    cli:
+
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+
+  - name: GATHER ALREADY CONFIGURED SYSLOG SERVER
+    ios_command:
+      commands: show run | incl logging host
+    register: syslogserver
+    when: ansible_network_os == 'ios'
+ 
+  - set_fact:
+      configured_syslogserver: "{{ syslogserver.stdout[0].split() | ipaddr('address') }}"
+    when: ansible_network_os == 'ios'
+
+  - name: Remove  IOS SYSLOG SERVER
+    ios_config:
+      lines:
+        - no logging host {{ item }}
+      save_when: changed
+    loop: "{{ configured_syslogserver }}"
+    when: ansible_network_os == 'ios'
+
+
+  - name: CONFIGURE IOS SYSLOG SERVER
+    ios_config:
+      lines:
+        - logging host 192.168.10.12
+      save_when: changed
+    register: print_output
+    when: ansible_network_os == 'ios'
+    failed_when: false
+    
+    
