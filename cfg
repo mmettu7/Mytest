@@ -1,0 +1,9 @@
+# Use the YAML callback plugin.
+stdout_callback = yaml
+# Use the stdout_callback when running ad-hoc commands.
+bin_ansible_callbacks = True
+# some basic default values...
+
+library =/opt/network/ansible/virtualenv/ansible-2.6/lib/python2.7/site-packages/napalm_ansible/modules:/opt/network/ansible/virtualenv/ansible-2.6/lib/python2.7/site-packages/ara/plugins/modules
+action_plugins =/opt/network/ansible/virtualenv/ansible-2.6/lib/python2.7/site-packages/napalm_ansible/plugins/action:/opt/network/ansible/virtualenv/ansible-2.6/lib/python2.7/site-packages/ara/plugins/actions
+callback_plugins = /opt/network/ansible/virtualenv/ansible-2.6/lib/python2.7/site-packages/ara/plugins/callbacks
